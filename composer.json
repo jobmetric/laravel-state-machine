@@ -1,0 +1,70 @@
+{
+    "name": "jobmetric/state-machine",
+    "description": "This package is for implementing the Eloquent State Machine of various Laravel projects.",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "laravel",
+        "jobmetric",
+        "package",
+        "state-machine",
+        "model"
+    ],
+    "homepage": "https://doc.jobmetric.net/package/state-machine",
+    "authors": [
+        {
+            "name": "Majid Mohammadian",
+            "email": "majeedmohammadian@gmail.com",
+            "homepage": "https://www.linkedin.com/in/majidmohammadian/",
+            "role": "Full Stack Developer"
+        }
+    ],
+    "require": {
+        "php": ">=8.0.1",
+        "ext-json": "*",
+        "laravel/framework": ">=9.19"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.6",
+        "pestphp/pest": "^1.2"
+    },
+    "autoload": {
+        "files": [
+            "src/helpers.php"
+        ],
+        "psr-4": {
+            "JobMetric\\StateMachine\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "JobMetric\\StateMachine\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/pest --colors=always",
+        "test-coverage": "vendor/bin/pest --coverage-html coverage"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "JobMetric\\StateMachine\\StateMachineServiceProvider"
+            ],
+            "aliases": {
+                "JStateMachine": "JobMetric\\StateMachine\\Facades\\StateMachineService"
+            }
+        }
+    },
+    "minimum-stability": "stable",
+    "support": {
+        "issues": "https://github.com/jobmetric/state-machine/issues",
+        "forum": "https://twitter.com/jobmetric",
+        "source": "https://github.com/jobmetric/state-machine"
+    },
+    "funding": [
+        {
+            "type": "github",
+            "url": "https://github.com/sponsors/majidmohammadian"
+        }
+    ]
+}
