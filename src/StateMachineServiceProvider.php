@@ -1,46 +1,16 @@
 <?php
 
-namespace JobMetric\Translation;
+namespace JobMetric\StateMachine;
 
-use Illuminate\Support\ServiceProvider;
-use JobMetric\StateMachine\StateMachineService;
+use JobMetric\PackageCore\PackageCore;
+use JobMetric\PackageCore\PackageCoreServiceProvider;
+use JobMetric\StateMachine\Commands\MakeStateMachine;
 
-class StateMachineServiceProvider extends ServiceProvider
+class StateMachineServiceProvider extends PackageCoreServiceProvider
 {
-    public function register()
+    public function configuration(PackageCore $package): void
     {
-        $this->app->bind('JStateMachine', function ($app) {
-            return new StateMachineService($app);
-        });
-
-        $this->mergeConfigFrom(__DIR__.'/../config/config.php', 'j-state-machine');
-    }
-
-    /**
-     * boot provider
-     *
-     * @return void
-     */
-    public function boot(): void
-    {
-        $this->registerPublishables();
-
-        // set translations
-        $this->loadTranslationsFrom(realpath(__DIR__.'/../lang'), 'j-state-machine');
-    }
-
-    /**
-     * register publishables
-     *
-     * @return void
-     */
-    protected function registerPublishables(): void
-    {
-        if($this->app->runningInConsole()) {
-            // publish config
-            $this->publishes([
-                realpath(__DIR__.'/../config/config.php') => config_path('j-state-machine.php')
-            ], 'state-machine-config');
-        }
+        $package->name('laravel-state-machine')
+            ->registerCommand(MakeStateMachine::class);
     }
 }
