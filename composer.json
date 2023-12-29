@@ -1,5 +1,5 @@
 {
-    "name": "jobmetric/state-machine",
+    "name": "jobmetric/laravel-state-machine",
     "description": "This package is for implementing the Eloquent State Machine of various Laravel projects.",
     "type": "library",
     "license": "MIT",
@@ -7,10 +7,12 @@
         "laravel",
         "jobmetric",
         "package",
-        "state-machine",
+        "state machine",
+        "state management",
+        "eloquent",
         "model"
     ],
-    "homepage": "https://doc.jobmetric.net/package/state-machine",
+    "homepage": "https://doc.jobmetric.net/package/laravel-state-machine",
     "authors": [
         {
             "name": "Majid Mohammadian",
@@ -24,42 +26,23 @@
         "ext-json": "*",
         "laravel/framework": ">=9.19"
     },
-    "require-dev": {
-        "phpunit/phpunit": "^9.6",
-        "pestphp/pest": "^1.2"
-    },
     "autoload": {
-        "files": [
-            "src/helpers.php"
-        ],
         "psr-4": {
             "JobMetric\\StateMachine\\": "src/"
         }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "JobMetric\\StateMachine\\Tests\\": "tests/"
-        }
-    },
-    "scripts": {
-        "test": "vendor/bin/pest --colors=always",
-        "test-coverage": "vendor/bin/pest --coverage-html coverage"
     },
     "extra": {
         "laravel": {
             "providers": [
                 "JobMetric\\StateMachine\\StateMachineServiceProvider"
-            ],
-            "aliases": {
-                "JStateMachine": "JobMetric\\StateMachine\\Facades\\StateMachineService"
-            }
+            ]
         }
     },
     "minimum-stability": "stable",
     "support": {
-        "issues": "https://github.com/jobmetric/state-machine/issues",
+        "issues": "https://github.com/jobmetric/laravel-state-machine/issues",
         "forum": "https://twitter.com/jobmetric",
-        "source": "https://github.com/jobmetric/state-machine"
+        "source": "https://github.com/jobmetric/laravel-state-machine"
     },
     "funding": [
         {
