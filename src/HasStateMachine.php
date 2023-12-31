@@ -1,8 +1,8 @@
 <?php
 
-namespace JobMetric\StateMachine\Traits;
+namespace JobMetric\StateMachine;
 
-use App\StateMachines\BaseStateMachine;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use JobMetric\StateMachine\Contracts\StateMachine;
 use JobMetric\StateMachine\Exceptions\ModelStateMachineInterfaceNotFoundException;
@@ -11,6 +11,7 @@ use Throwable;
 
 /**
  * @method static retrieved(\Closure $param)
+ * @method stateMachineAllowTransition()
  */
 trait HasStateMachine
 {
@@ -24,7 +25,7 @@ trait HasStateMachine
     public static function bootHasStateMachine(): void
     {
         static::retrieved(function ($model) {
-            if (!in_array("JobMetric\StateMachine\Contracts\ModelStateMachineContract", class_implements($model))) {
+            if (!in_array("JobMetric\StateMachine\Contracts\StateMachineContract", class_implements($model))) {
                 throw new ModelStateMachineInterfaceNotFoundException($model::class);
             }
         });
@@ -60,7 +61,13 @@ trait HasStateMachine
      */
     public function transitionTo(mixed $to, string $field = 'status'): bool
     {
-        $this->initAllowTransition();
+        $appNamespace = trim(appNamespace(), "\\");
+
+        /**
+         * @var $this Model
+         */
+        $this->stateMachineAllowTransition();
+
         $currentState = $this->{$field};
 
         $checkTransitions = $this->validationTransitions($field, $currentState, $to);
@@ -78,12 +85,12 @@ trait HasStateMachine
         $default_object = null;
         $object = null;
 
-        $className = "\\App\\StateMachines\\$selfClass\\" . $selfClass . Str::studly($field) . $checkTransitions . "StateMachine";
+        $className = "\\$appNamespace\\StateMachines\\$selfClass\\" . $selfClass . Str::studly($field) . $checkTransitions . "StateMachine";
         if (class_exists($className)) {
             $object = new $className($this);
         }
 
-        $className = "\\App\\StateMachines\\$selfClass\\" . $selfClass . Str::studly($field) . "DefaultStateMachine";
+        $className = "\\$appNamespace\\StateMachines\\$selfClass\\" . $selfClass . Str::studly($field) . "DefaultStateMachine";
         if (class_exists($className)) {
             $default_object = new $className($this);
         }
