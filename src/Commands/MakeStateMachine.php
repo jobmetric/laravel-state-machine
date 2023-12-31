@@ -3,7 +3,6 @@
 namespace JobMetric\StateMachine\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Str;
 use JobMetric\PackageCore\Commands\ConsoleTools;
 
@@ -18,7 +17,7 @@ class MakeStateMachine extends Command
      */
     protected $signature = 'make:state-machine
                 {model : Eloquent model name}
-                {state : State name}
+                {state? : State name}
                 {--f|field=status : Field name}';
 
     /**
@@ -33,60 +32,50 @@ class MakeStateMachine extends Command
      */
     public function handle(): int
     {
-        $task = $this->argument('task');
-        $task = Str::studly($task);
+        $appNamespace = trim(appNamespace(), "\\");
 
-        $driver = $this->argument('driver');
-        if ($driver) {
-            // make flow task
-            $driver = Str::studly($driver);
+        $model = $this->argument('model');
+        $model = Str::studly($model);
 
-            Artisan::call('make:flow ' . $driver);
+        if (!class_exists($appNamespace . "\\Models\\" . $model)) {
+            $this->message("Model <options=bold>$model</> not found.", 'error');
 
-            if ($this->isFile('app/Flows/Drivers/' . $driver . '/Tasks/' . $task . $driver . 'Task.php')) {
-                $this->message('Flow task already exists.', 'error');
-
-                return 1;
-            }
-
-            $content_task = $this->getStub('task', [
-                'task' => $task,
-                'driver' => $driver,
-            ]);
-
-            $path = base_path('app/Flows/Drivers/' . $driver . '/Tasks');
-            if (!$this->isDir($path)) {
-                $this->makeDir($path);
-            }
-
-            if (!$this->isFile($path . '/' . $task . $driver . 'Task.php')) {
-                $this->putFile($path . '/' . $task . $driver . 'Task.php', $content_task);
-            }
-
-            $this->message('Flow Task <options=bold>[' . $path . '/' . $task . $driver . 'Task.php]</> created successfully.', 'success');
-        } else {
-            // make global task
-            if ($this->isFile('app/Flows/Global/' . $task . 'GlobalTask.php')) {
-                $this->message('Flow global task already exists.', 'error');
-
-                return 1;
-            }
-
-            $content_task = $this->getStub('global-task', [
-                'task' => $task
-            ]);
-
-            $path = base_path('app/Flows/Global');
-            if (!$this->isDir($path)) {
-                $this->makeDir($path);
-            }
-
-            if (!$this->isFile($path . '/' . $task . 'GlobalTask.php')) {
-                $this->putFile($path . '/' . $task . 'GlobalTask.php', $content_task);
-            }
-
-            $this->message('Flow Global Task <options=bold>[' . $path . '/' . $task . 'GlobalTask.php]</> created successfully.', 'success');
+            return 1;
         }
+
+        $state = $this->argument('state');
+        if ($state) {
+            $state = Str::studly($state);
+        } else {
+            $state = 'Default';
+        }
+
+        $field = $this->option('field');
+        $field = Str::studly($field);
+
+        if ($this->isFile($appNamespace . "/StateMachines/$model/{$model}{$field}{$state}StateMachine.php")) {
+            $this->message("State Machine already exists.", "error");
+
+            return 2;
+        }
+
+        $content = $this->getStub(__DIR__ . "/stub/state-machine", [
+            'appNamespace' => $appNamespace,
+            'model' => $model,
+            'field' => $field,
+            'state' => $state,
+        ]);
+
+        $path = base_path("$appNamespace/StateMachines/$model");
+        if (!$this->isDir($path)) {
+            $this->makeDir($path);
+        }
+
+        if (!$this->isFile("$path/{$model}{$field}{$state}StateMachine.php")) {
+            $this->putFile("$path/{$model}{$field}{$state}StateMachine.php", $content);
+        }
+
+        $this->message("State Machine <options=bold>[$path/{$model}{$field}{$state}StateMachine.php]</> created successfully.", "success");
 
         return 0;
     }

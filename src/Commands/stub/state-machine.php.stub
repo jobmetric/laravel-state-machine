@@ -1,0 +1,34 @@
+<?php
+
+namespace {{appNamespace}}\StateMachines\{{model}};
+
+use JobMetric\StateMachine\Contracts\StateMachine;
+
+class {{model}}{{field}}{{state}}StateMachine extends StateMachine
+{
+    /**
+     * before change state in current field model
+     *
+     * @param mixed $from
+     * @param mixed $to
+     *
+     * @return void
+     */
+    public function before(mixed $from, mixed $to): void
+    {
+        // write code here
+    }
+
+    /**
+     * after change state in current field model
+     *
+     * @param mixed $from
+     * @param mixed $to
+     *
+     * @return void
+     */
+    public function after(mixed $from, mixed $to): void
+    {
+        // write code here
+    }
+}

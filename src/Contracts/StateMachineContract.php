@@ -2,7 +2,7 @@
 
 namespace JobMetric\StateMachine\Contracts;
 
-interface ModelStateMachineContract
+interface StateMachineContract
 {
     public function stateMachineAllowTransition(): void;
 }
