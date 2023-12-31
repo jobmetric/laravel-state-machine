@@ -6,18 +6,18 @@ This package is for implementing the Eloquent State Machine of various Laravel p
 
 Run the following command to pull in the latest version:
 ```bash
-composer require jobmetric/state-machine
+composer require jobmetric/laravel-state-machine
 ```
 
 ### Add service provider
 
-Add the service provider to the providers array in the config/app.php config file as follows:
+Add the service provider to the providers array in the `config/app.php` config file as follows:
 
 ```php
 'providers' => [
 
     ...
-
+    
     JobMetric\StateMachine\StateMachineServiceProvider::class,
 ]
 ```
