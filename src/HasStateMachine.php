@@ -10,7 +10,6 @@ use JobMetric\StateMachine\Exceptions\StateMachineNotAllowTransitionException;
 use Throwable;
 
 /**
- * @method static retrieved(\Closure $param)
  * @method stateMachineAllowTransition()
  */
 trait HasStateMachine
@@ -21,10 +20,11 @@ trait HasStateMachine
      * boot has state machine
      *
      * @return void
+     * @throws ModelStateMachineInterfaceNotFoundException
      */
     public static function bootHasStateMachine(): void
     {
-        static::retrieved(function ($model) {
+        static::creating(function ($model) {
             if (!in_array("JobMetric\StateMachine\Contracts\StateMachineContract", class_implements($model))) {
                 throw new ModelStateMachineInterfaceNotFoundException($model::class);
             }
@@ -37,16 +37,23 @@ trait HasStateMachine
      * @param string $field field name
      * @param mixed $from from state
      * @param mixed $to to state
-     * @param callable|string $callable callback function
      *
      * @return void
      */
-    public function allowTransition(string $field, mixed $from, mixed $to, callable|string $callable = 'Default'): void
+    public function allowTransition(string $field, mixed $from, mixed $to): void
     {
-        if ($callable == 'Default') {
-            $this->stateMachines[$field][] = [$from, $to];
+        $appNamespace = trim(appNamespace(), "\\");
+
+        $classPart = explode('\\', self::class);
+        $selfClass = end($classPart);
+
+        $stateName = Str::studly($from) . 'To' . Str::studly($to);
+
+        $className = "\\$appNamespace\\StateMachines\\$selfClass\\" . $selfClass . Str::studly($field) . $stateName . "StateMachine";
+        if (class_exists($className)) {
+            $this->stateMachines[$field][] = [$from, $to, $stateName];
         } else {
-            $this->stateMachines[$field][] = [$from, $to, $callable];
+            $this->stateMachines[$field][] = [$from, $to];
         }
     }
 
@@ -63,9 +70,6 @@ trait HasStateMachine
     {
         $appNamespace = trim(appNamespace(), "\\");
 
-        /**
-         * @var $this Model
-         */
         $this->stateMachineAllowTransition();
 
         $currentState = $this->{$field};
@@ -96,21 +100,21 @@ trait HasStateMachine
         }
 
         if (!is_null($default_object)) {
-            $default_object->before($currentState, $to);
+            $default_object->before($this, $currentState, $to);
         }
 
         if (!is_null($object)) {
-            $object->before($currentState, $to);
+            $object->before($this, $currentState, $to);
         }
 
         $this->{$field} = $to;
         $this->save();
 
         if (!is_null($object)) {
-            $object->after($currentState, $to);
+            $object->after($this, $currentState, $to);
         }
         if (!is_null($default_object)) {
-            $default_object->after($currentState, $to);
+            $default_object->after($this, $currentState, $to);
         }
 
         return true;

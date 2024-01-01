@@ -2,6 +2,7 @@
 
 namespace {{appNamespace}}\StateMachines\{{model}};
 
+use Illuminate\Database\Eloquent\Model;
 use JobMetric\StateMachine\Contracts\StateMachine;
 
 class {{model}}{{field}}{{state}}StateMachine extends StateMachine
@@ -9,12 +10,13 @@ class {{model}}{{field}}{{state}}StateMachine extends StateMachine
     /**
      * before change state in current field model
      *
+     * @param Model $model
      * @param mixed $from
      * @param mixed $to
      *
      * @return void
      */
-    public function before(mixed $from, mixed $to): void
+    public function before(Model $model, mixed $from, mixed $to): void
     {
         // write code here
     }
@@ -22,12 +24,13 @@ class {{model}}{{field}}{{state}}StateMachine extends StateMachine
     /**
      * after change state in current field model
      *
+     * @param Model $model
      * @param mixed $from
      * @param mixed $to
      *
      * @return void
      */
-    public function after(mixed $from, mixed $to): void
+    public function after(Model $model, mixed $from, mixed $to): void
     {
         // write code here
     }

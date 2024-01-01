@@ -13,21 +13,23 @@ abstract class StateMachine
     /**
      * before change state in current field model
      *
+     * @param Model $model
      * @param mixed $from
      * @param mixed $to
      *
      * @return void
      */
-    abstract function before(mixed $from, mixed $to): void;
+    abstract function before(Model $model, mixed $from, mixed $to): void;
 
 
     /**
      * after change state in current field model
      *
+     * @param Model $model
      * @param mixed $from
      * @param mixed $to
      *
      * @return void
      */
-    abstract function after(mixed $from, mixed $to): void;
+    abstract function after(Model $model, mixed $from, mixed $to): void;
 }
