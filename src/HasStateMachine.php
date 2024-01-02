@@ -24,11 +24,9 @@ trait HasStateMachine
      */
     public static function bootHasStateMachine(): void
     {
-        static::creating(function ($model) {
-            if (!in_array("JobMetric\StateMachine\Contracts\StateMachineContract", class_implements($model))) {
-                throw new ModelStateMachineInterfaceNotFoundException($model::class);
-            }
-        });
+        if (!in_array("JobMetric\StateMachine\Contracts\StateMachineContract", class_implements(self::class))) {
+            throw new ModelStateMachineInterfaceNotFoundException(self::class);
+        }
     }
 
     /**
