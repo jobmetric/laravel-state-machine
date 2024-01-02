@@ -47,7 +47,7 @@ class MakeStateMachine extends Command
         if ($state) {
             $state = Str::studly($state);
         } else {
-            $state = 'Default';
+            $state = 'Common';
         }
 
         $field = $this->option('field');

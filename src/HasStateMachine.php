@@ -2,7 +2,6 @@
 
 namespace JobMetric\StateMachine;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use JobMetric\StateMachine\Contracts\StateMachine;
 use JobMetric\StateMachine\Exceptions\ModelStateMachineInterfaceNotFoundException;
@@ -84,7 +83,7 @@ trait HasStateMachine
         /**
          * @var $object StateMachine
          */
-        $default_object = null;
+        $common_object = null;
         $object = null;
 
         $className = "\\$appNamespace\\StateMachines\\$selfClass\\" . $selfClass . Str::studly($field) . $checkTransitions . "StateMachine";
@@ -92,13 +91,13 @@ trait HasStateMachine
             $object = new $className($this);
         }
 
-        $className = "\\$appNamespace\\StateMachines\\$selfClass\\" . $selfClass . Str::studly($field) . "DefaultStateMachine";
+        $className = "\\$appNamespace\\StateMachines\\$selfClass\\" . $selfClass . Str::studly($field) . "CommonStateMachine";
         if (class_exists($className)) {
-            $default_object = new $className($this);
+            $common_object = new $className($this);
         }
 
-        if (!is_null($default_object)) {
-            $default_object->before($this, $currentState, $to);
+        if (!is_null($common_object)) {
+            $common_object->before($this, $currentState, $to);
         }
 
         if (!is_null($object)) {
@@ -111,8 +110,8 @@ trait HasStateMachine
         if (!is_null($object)) {
             $object->after($this, $currentState, $to);
         }
-        if (!is_null($default_object)) {
-            $default_object->after($this, $currentState, $to);
+        if (!is_null($common_object)) {
+            $common_object->after($this, $currentState, $to);
         }
 
         return true;
@@ -131,7 +130,7 @@ trait HasStateMachine
     {
         foreach ($this->stateMachines[$field] as $transition) {
             if ($transition[0] == $from && $transition[1] == $to) {
-                return $transition[2] ?? 'Default';
+                return $transition[2] ?? 'Common';
             }
         }
 
