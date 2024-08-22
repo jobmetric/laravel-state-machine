@@ -177,3 +177,7 @@ $exact->before();
 $exact->after();
 $common->after();
 ```
+
+## License
+
+The MIT License (MIT). Please see [License File](https://github.com/jobmetric/laravel-state-machine/blob/master/LICENCE.md) for more information.
