@@ -27,6 +27,11 @@
         "laravel/framework": ">=9.19",
         "jobmetric/laravel-package-core": "^1.2"
     },
+    "require-dev": {
+        "mockery/mockery": "^1.4.4",
+        "orchestra/testbench": "8.36",
+        "phpunit/phpunit": "^10.1"
+    },
     "autoload": {
         "psr-4": {
             "JobMetric\\StateMachine\\": "src/"
