@@ -171,7 +171,7 @@ trait HasStateMachine
 
         $selfClass = class_basename(static::class);
         $baseNamespace = $this->resolveStateMachineNamespace();
-        $commonClassName = "$baseNamespace\\$selfClass\\{$selfClass}" . Str::studly($field) . "CommonStateMachine";
+        $commonClassName = "$baseNamespace\\$selfClass\\$selfClass" . Str::studly($field) . "CommonStateMachine";
 
         $transitionObject = null;
         if (isset($transitionData['class']) && class_exists($transitionData['class'])) {
