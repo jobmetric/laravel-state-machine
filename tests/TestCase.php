@@ -2,10 +2,14 @@
 
 namespace JobMetric\StateMachine\Tests;
 
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 
 class TestCase extends BaseTestCase
 {
+    use RefreshDatabase;
+
     protected function getPackageProviders($app)
     {
         return [
@@ -27,6 +31,6 @@ class TestCase extends BaseTestCase
     {
         parent::setUp();
 
-        $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
+        loadMigrationPath(__DIR__ . '/database/migrations');
     }
 }
