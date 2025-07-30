@@ -1,6 +1,6 @@
 <?php
 
-namespace JobMetric\StateMachine\Tests;
+namespace JobMetric\StateMachine\Tests\Feature;
 
 use Illuminate\Support\Facades\Event;
 use JobMetric\StateMachine\Events\StateTransitioned;
@@ -9,6 +9,7 @@ use JobMetric\StateMachine\Exceptions\ModelStateMachineInterfaceNotFoundExceptio
 use JobMetric\StateMachine\Exceptions\StateMachineNotAllowTransitionException;
 use JobMetric\StateMachine\Tests\Stubs\Models\Article;
 use JobMetric\StateMachine\Tests\Stubs\Models\Order;
+use JobMetric\StateMachine\Tests\TestCase;
 use Throwable;
 
 class HasStateMachineTest extends TestCase
@@ -31,8 +32,6 @@ class HasStateMachineTest extends TestCase
     public function test_resolve_state_machine_namespace()
     {
         $article = $this->makeDraftArticle();
-
-        $appNamespace = trim(appNamespace(), "\\");
 
         $this->assertEquals("JobMetric\\StateMachine\\Tests\\Stubs\\StateMachines", $article->resolveStateMachineNamespace());
     }

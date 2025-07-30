@@ -7,6 +7,7 @@ use JobMetric\StateMachine\Contracts\StateMachineContract;
 use JobMetric\StateMachine\HasStateMachine;
 
 /**
+ * @property int $id
  * @property string $title
  * @property string $status
  *

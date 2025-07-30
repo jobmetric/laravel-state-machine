@@ -3,20 +3,21 @@
 namespace JobMetric\StateMachine\Tests;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use JobMetric\StateMachine\StateMachineServiceProvider;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 
 class TestCase extends BaseTestCase
 {
     use RefreshDatabase;
 
-    protected function getPackageProviders($app)
+    protected function getPackageProviders($app): array
     {
         return [
-            // \JobMetric\StateMachine\StateMachineServiceProvider::class,
+            StateMachineServiceProvider::class,
         ];
     }
 
-    protected function getEnvironmentSetUp($app)
+    protected function getEnvironmentSetUp($app): void
     {
         $app['config']->set('database.default', 'testing');
         $app['config']->set('database.connections.testing', [
