@@ -273,4 +273,32 @@ trait HasStateMachine
 
         return false;
     }
+
+    /**
+     * Get all defined state machines for the model.
+     *
+     * @return array<string, array<int, array{from: mixed, to: mixed, name: string, condition: ?Closure, class?: string}>>
+     */
+    public function stateMachines(): array
+    {
+        $this->initializeStateMachineTransitions();
+
+        return $this->stateMachines;
+    }
+
+    /**
+     * Get state of the specified field.
+     *
+     * @param string $field The field to get the state for (default: 'status').
+     *
+     * @return mixed The current state of the field.
+     */
+    public function getState(string $field = 'status'): mixed
+    {
+        if (!array_key_exists($field, $this->getAttributes())) {
+            throw new InvalidArgumentException("Field [$field] does not exist on model.");
+        }
+
+        return $this->{$field};
+    }
 }
