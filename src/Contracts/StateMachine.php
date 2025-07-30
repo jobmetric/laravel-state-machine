@@ -53,8 +53,8 @@ abstract class StateMachine
      * If this method throws an exception, the transition will be aborted.
      *
      * @param Model $model The model instance being transitioned.
-     * @param mixed $from  The current state value before transition.
-     * @param mixed $to    The target state value after transition.
+     * @param mixed $from The current state value before transition.
+     * @param mixed $to The target state value after transition.
      *
      * @return void
      */
@@ -69,8 +69,8 @@ abstract class StateMachine
      * This method is only called if the transition was successful.
      *
      * @param Model $model The model instance that was transitioned.
-     * @param mixed $from  The previous state value before transition.
-     * @param mixed $to    The new state value after transition.
+     * @param mixed $from The previous state value before transition.
+     * @param mixed $to The new state value after transition.
      *
      * @return void
      */

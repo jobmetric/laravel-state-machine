@@ -5,33 +5,64 @@ namespace {{appNamespace}}\StateMachines\{{model}};
 use Illuminate\Database\Eloquent\Model;
 use JobMetric\StateMachine\Contracts\StateMachine;
 
+/**
+ * Class {{model}}{{field}}{{state}}StateMachine
+ *
+ * This class handles the state transitions for the "{{field}}" field
+ * of the "{{model}}" model. You can define custom logic that should
+ * be executed before and/or after a state transition occurs.
+ *
+ * To define the available states and transitions, configure your
+ * StateMachine class accordingly, and optionally override the
+ * `before` and `after` hooks to apply business logic.
+ *
+ * Example use cases:
+ * - Logging state changes
+ * - Sending notifications
+ * - Validating business rules
+ * - Updating related models or fields
+ *
+ * @package {{appNamespace}}\StateMachines\{{model}}
+ */
 class {{model}}{{field}}{{state}}StateMachine extends StateMachine
 {
     /**
-     * before change state in current field model
+     * Handle logic before a state transition occurs.
      *
-     * @param Model $model
-     * @param mixed $from
-     * @param mixed $to
+     * This method is called right before changing the state
+     * of the field "{{field}}" in the "{{model}}" model.
+     *
+     * You may use this to validate conditions, cancel transition
+     * by throwing an exception, or prepare the model for transition.
+     *
+     * @param Model $model The model instance being transitioned.
+     * @param mixed $from The current state before transition.
+     * @param mixed $to The target state to transition to.
      *
      * @return void
      */
     public function before(Model $model, mixed $from, mixed $to): void
     {
-        // write code here
+        // Place your pre-transition logic here.
     }
 
     /**
-     * after change state in current field model
+     * Handle logic after a state transition has occurred.
      *
-     * @param Model $model
-     * @param mixed $from
-     * @param mixed $to
+     * This method is called right after the state of
+     * "{{field}}" field has been changed successfully.
+     *
+     * You can use this to trigger events, update other fields,
+     * send notifications, or log the transition.
+     *
+     * @param Model $model The model instance that was transitioned.
+     * @param mixed $from The previous state before transition.
+     * @param mixed $to The new state after transition.
      *
      * @return void
      */
     public function after(Model $model, mixed $from, mixed $to): void
     {
-        // write code here
+        // Place your post-transition logic here.
     }
 }

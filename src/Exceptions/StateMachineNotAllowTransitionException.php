@@ -9,11 +9,11 @@ class StateMachineNotAllowTransitionException extends Exception
 {
     public function __construct(string $className, string $field, mixed $from, mixed $to, int $code = 400, ?Throwable $previous = null)
     {
-        if(gettype($from) == 'object') {
+        if (gettype($from) == 'object') {
             $from = $from->value;
         }
 
-        if(gettype($to) == 'object') {
+        if (gettype($to) == 'object') {
             $to = $to->value;
         }
 

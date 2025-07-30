@@ -2,7 +2,6 @@
 
 namespace JobMetric\StateMachine\Tests;
 
-use Illuminate\Database\Migrations\Migration;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 

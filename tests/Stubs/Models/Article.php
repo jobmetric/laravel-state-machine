@@ -29,8 +29,8 @@ class Article extends Model implements StateMachineContract
     public function stateMachineAllowTransition(): void
     {
         $this->allowTransition('status', 'draft', 'published');
-        $this->allowTransition('status', 'published', 'archived', fn ($model) => $model->isPublishedToArchive());
-        $this->allowTransition('status', 'archived', 'draft', fn ($model) => $model->isArchiveToDraft());
+        $this->allowTransition('status', 'published', 'archived', fn($model) => $model->isPublishedToArchive());
+        $this->allowTransition('status', 'archived', 'draft', fn($model) => $model->isArchiveToDraft());
     }
 
     public function resolveStateMachineNamespace(): string
