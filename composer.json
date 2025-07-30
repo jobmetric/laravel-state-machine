@@ -25,7 +25,7 @@
         "php": ">=8.0.1",
         "ext-json": "*",
         "laravel/framework": ">=9.19",
-        "jobmetric/laravel-package-core": "^1.21"
+        "jobmetric/laravel-package-core": "^1.21.1"
     },
     "require-dev": {
         "mockery/mockery": "^1.4.4",
