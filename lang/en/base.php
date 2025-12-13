@@ -12,9 +12,12 @@ return [
     |
     */
 
+    "entity_names" => [
+        "state_machine" => "State Machine",
+    ],
+
     'events' => [
         'state_transitioned' => [
-            'group' => 'State Machine',
             'title' => 'State Transitioned',
             'description' => 'This event is triggered when a state transition occurs.',
         ],

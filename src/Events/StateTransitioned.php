@@ -37,7 +37,7 @@ readonly class StateTransitioned implements DomainEvent
      */
     public static function definition(): DomainEventDefinition
     {
-        return new DomainEventDefinition(self::key(), 'state_machine::base.events.state_transitioned.group', 'state_machine::base.events.state_transitioned.title', 'state_machine::base.events.state_transitioned.description', 'fas fa-exchange-alt', [
+        return new DomainEventDefinition(self::key(), 'state_machine::base.entity_names.state_machine', 'state_machine::base.events.state_transitioned.title', 'state_machine::base.events.state_transitioned.description', 'fas fa-exchange-alt', [
             'state_machine',
             'transition',
             'state',
